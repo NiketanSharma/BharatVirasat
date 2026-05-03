@@ -15,21 +15,25 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         :root {
-            --saffron: #FF9933;
-            --saffron-dark: #E8871D;
-            --deep-red: #8B0000;
-            --deep-red-light: #A52A2A;
-            --ivory: #FFFFF0;
-            --ivory-warm: #FFF8F0;
-            --gold: #DAA520;
-            --gold-light: #F0C75E;
-            --dark-brown: #3E2723;
-            --warm-gray: #5D4037;
-            --cream: #FDF5E6;
-            --bg-gradient: linear-gradient(135deg, #FFF8F0 0%, #FDF5E6 50%, #FFFFF0 100%);
+            --saffron: #FF7B00;
+            --saffron-dark: #CC6200;
+            --saffron-light: #FF9E40;
+            --deep-red: #6D0000;
+            --deep-red-light: #940000;
+            --ivory: #FAFAFA;
+            --ivory-warm: #FFFDF9;
+            --gold: #C5A059;
+            --gold-light: #E0C388;
+            --dark-brown: #2C1E16;
+            --warm-gray: #5D4A41;
+            --cream: #F5EFEB;
+            --bg-gradient: linear-gradient(135deg, #FFFDF9 0%, #F5EFEB 100%);
         }
 
         * { box-sizing: border-box; }
@@ -39,6 +43,7 @@
             background: var(--bg-gradient);
             color: var(--dark-brown);
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -46,20 +51,24 @@
             color: var(--deep-red);
         }
 
-        /* Navbar */
+        /* Navbar - Glassmorphism */
         .navbar-bharat {
-            background: linear-gradient(135deg, var(--deep-red) 0%, var(--dark-brown) 100%);
-            padding: 0.8rem 0;
-            box-shadow: 0 4px 20px rgba(139, 0, 0, 0.3);
-            border-bottom: 3px solid var(--gold);
+            background: rgba(44, 30, 22, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+            transition: all 0.3s ease;
         }
 
         .navbar-bharat .navbar-brand {
             font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             font-weight: 800;
-            color: var(--gold-light) !important;
+            color: #fff !important;
             letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .navbar-bharat .navbar-brand span {
@@ -98,18 +107,30 @@
 
         /* Cards */
         .heritage-card {
-            background: #fff;
-            border: none;
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             height: 100%;
+            position: relative;
+        }
+
+        .heritage-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 20px;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            z-index: 10;
         }
 
         .heritage-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 35px rgba(139, 0, 0, 0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(109, 0, 0, 0.12);
         }
 
         .heritage-card .card-img-top {
@@ -145,14 +166,15 @@
 
         /* Badges */
         .badge-category {
-            background: linear-gradient(135deg, var(--saffron), var(--gold));
+            background: linear-gradient(135deg, var(--saffron), var(--saffron-light));
             color: #fff;
             font-weight: 600;
             font-size: 0.75rem;
-            padding: 0.35rem 0.75rem;
-            border-radius: 20px;
+            padding: 0.4rem 0.85rem;
+            border-radius: 30px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
+            box-shadow: 0 4px 10px rgba(255, 123, 0, 0.3);
         }
 
         .badge-state {
@@ -166,21 +188,36 @@
 
         /* Buttons */
         .btn-saffron {
-            background: linear-gradient(135deg, var(--saffron), var(--saffron-dark));
+            background: linear-gradient(135deg, var(--saffron-light), var(--saffron));
             color: #fff;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-weight: 600;
-            padding: 0.6rem 1.5rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 153, 51, 0.3);
+            padding: 0.7rem 1.8rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 15px rgba(255, 123, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-saffron::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: skewX(-20deg);
+            transition: all 0.5s ease;
+        }
+
+        .btn-saffron:hover::after {
+            left: 150%;
         }
 
         .btn-saffron:hover {
-            background: linear-gradient(135deg, var(--saffron-dark), var(--saffron));
+            background: linear-gradient(135deg, var(--saffron), var(--saffron-dark));
             color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 153, 51, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 123, 0, 0.45);
         }
 
         .btn-heritage {
@@ -265,11 +302,21 @@
 
         /* Footer */
         .footer-bharat {
-            background: linear-gradient(135deg, var(--dark-brown) 0%, var(--deep-red) 100%);
-            color: rgba(255, 255, 255, 0.8);
-            padding: 2.5rem 0 1.5rem;
-            margin-top: 4rem;
-            border-top: 3px solid var(--gold);
+            background: #1A1A1A;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 3rem 0 2rem;
+            margin-top: 5rem;
+            position: relative;
+        }
+
+        .footer-bharat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--saffron), var(--gold), var(--deep-red));
         }
 
         .footer-bharat h5 {
@@ -484,6 +531,31 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-cubic',
+                once: true,
+                offset: 50,
+            });
+            
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                var navbar = document.querySelector('.navbar-bharat');
+                if (window.scrollY > 50) {
+                    navbar.style.padding = '0.5rem 0';
+                    navbar.style.background = 'rgba(26, 26, 26, 0.95)';
+                } else {
+                    navbar.style.padding = '1rem 0';
+                    navbar.style.background = 'rgba(44, 30, 22, 0.85)';
+                }
+            });
+        });
+    </script>
     @yield('scripts')
 </body>
 </html>

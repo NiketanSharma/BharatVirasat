@@ -5,13 +5,13 @@
 @section('content')
 <div class="container py-5">
     <!-- Page Header -->
-    <div class="text-center mb-4">
-        <h1 class="section-title">{{ __('ui.directory_title') }}</h1>
+    <div class="text-center mb-5" data-aos="zoom-in" data-aos-duration="800">
+        <h1 class="section-title" style="font-size: 3rem;">{{ __('ui.directory_title') }}</h1>
         <p class="section-subtitle">{{ __('ui.directory_subtitle') }}</p>
     </div>
 
     <!-- Filters -->
-    <div class="card border-0 shadow-sm mb-4" style="border-radius: 16px;">
+    <div class="card border-0 mb-5" style="border-radius: 20px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid rgba(255,255,255,0.5) !important;" data-aos="fade-up" data-aos-delay="100">
         <div class="card-body p-4">
             <form action="{{ route('heritage.index') }}" method="GET" class="row g-3 align-items-end">
                 <div class="col-md-3">
@@ -59,7 +59,7 @@
     <!-- Results Grid -->
     <div class="row g-4">
         @forelse($items as $index => $item)
-            <div class="col-md-6 col-lg-4 col-xl-3">
+            <div class="col-md-6 col-lg-4 col-xl-3" data-aos="fade-up" data-aos-delay="{{ 100 * ($index % 8 + 1) }}">
                 <div class="heritage-card card">
                     <div class="card-img-wrapper">
                         @if($item->image_path)

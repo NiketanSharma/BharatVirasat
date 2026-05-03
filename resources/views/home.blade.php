@@ -5,9 +5,9 @@
 @section('styles')
 <style>
     .hero-section {
-        background: linear-gradient(135deg, rgba(139, 0, 0, 0.85), rgba(62, 39, 35, 0.9)),
-                    url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1600') center/cover no-repeat;
-        min-height: 75vh;
+        background: linear-gradient(135deg, rgba(44, 30, 22, 0.8), rgba(109, 0, 0, 0.75)),
+                    url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1600') center/cover no-repeat fixed;
+        min-height: 80vh;
         display: flex;
         align-items: center;
         position: relative;
@@ -29,10 +29,11 @@
 
     .hero-section h1 {
         font-family: 'Playfair Display', serif;
-        font-size: 3.5rem;
+        font-size: 4rem;
         font-weight: 800;
         color: #fff;
-        text-shadow: 2px 4px 10px rgba(0,0,0,0.3);
+        text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        letter-spacing: 1px;
     }
 
     .hero-section p {
@@ -65,32 +66,36 @@
     }
 
     .categories-card {
-        background: #fff;
-        border-radius: 20px;
-        padding: 2rem;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: 24px;
+        padding: 2.5rem 2rem;
+        box-shadow: 0 15px 50px rgba(0,0,0,0.08);
     }
 
     .cat-btn {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 0.5rem;
-        padding: 1rem;
-        border-radius: 16px;
-        background: var(--ivory-warm);
-        border: 2px solid transparent;
-        transition: all 0.3s ease;
+        gap: 0.8rem;
+        padding: 1.2rem;
+        border-radius: 20px;
+        background: rgba(255, 253, 249, 0.8);
+        border: 1px solid rgba(197, 160, 89, 0.2);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         text-decoration: none;
         color: var(--dark-brown);
-        min-width: 100px;
+        min-width: 110px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
     }
 
     .cat-btn:hover {
-        border-color: var(--saffron);
-        background: #fff;
-        transform: translateY(-4px);
-        box-shadow: 0 8px 20px rgba(255, 153, 51, 0.15);
+        border-color: var(--saffron-light);
+        background: linear-gradient(135deg, #ffffff, var(--ivory-warm));
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 12px 25px rgba(255, 123, 0, 0.15);
         color: var(--saffron-dark);
     }
 
@@ -109,20 +114,20 @@
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container text-center hero-content">
-            <div class="animate-in">
-                <div class="ornament mx-auto mb-4" style="width: 80px;"></div>
-                <h1 class="mb-3">{{ __('ui.hero_title') }}</h1>
-                <p class="mx-auto mb-4">{{ __('ui.hero_subtitle') }}</p>
-                <div class="hero-search mx-auto">
-                    <form action="{{ route('heritage.index') }}" method="GET" class="d-flex">
-                        <input type="text" name="search" class="form-control" placeholder="{{ __('ui.search_placeholder') }}" value="{{ request('search') }}">
+            <div>
+                <div class="ornament mx-auto mb-4" style="width: 80px;" data-aos="zoom-in" data-aos-duration="1000"></div>
+                <h1 class="mb-3" data-aos="fade-up" data-aos-delay="100">{{ __('ui.hero_title') }}</h1>
+                <p class="mx-auto mb-4" data-aos="fade-up" data-aos-delay="200">{{ __('ui.hero_subtitle') }}</p>
+                <div class="hero-search mx-auto" data-aos="fade-up" data-aos-delay="300">
+                    <form action="{{ route('heritage.index') }}" method="GET" class="d-flex shadow-lg" style="border-radius: 30px;">
+                        <input type="text" name="search" class="form-control" placeholder="{{ __('ui.search_placeholder') }}" value="{{ request('search') }}" style="background: rgba(255,255,255,0.95);">
                         <button type="submit" class="btn btn-saffron">
                             <i class="bi bi-search me-1"></i>{{ __('ui.search_btn') }}
                         </button>
                     </form>
                 </div>
-                <div class="mt-4">
-                    <a href="{{ route('heritage.index') }}" class="btn btn-gold btn-lg px-4">
+                <div class="mt-5" data-aos="fade-up" data-aos-delay="400">
+                    <a href="{{ route('heritage.index') }}" class="btn btn-gold btn-lg px-5 shadow-lg" style="border-radius: 30px;">
                         <i class="bi bi-compass me-2"></i>{{ __('ui.hero_cta') }}
                     </a>
                 </div>
@@ -133,7 +138,7 @@
     <!-- Categories Section -->
     <section class="categories-section">
         <div class="container">
-            <div class="categories-card">
+            <div class="categories-card" data-aos="fade-up" data-aos-delay="500">
                 <div class="d-flex flex-wrap justify-content-center gap-3">
                     <a href="{{ route('heritage.index') }}" class="cat-btn">
                         <span class="cat-icon">🇮🇳</span>
@@ -169,16 +174,16 @@
     </section>
 
     <!-- Featured Heritage Items -->
-    <section class="py-5">
+    <section class="py-5 mt-4">
         <div class="container">
-            <div class="text-center mb-5">
+            <div class="text-center mb-5" data-aos="fade-up">
                 <h2 class="section-title">{{ __('ui.featured_title') }}</h2>
                 <p class="section-subtitle">{{ __('ui.featured_subtitle') }}</p>
             </div>
 
             <div class="row g-4">
                 @forelse($featured as $index => $item)
-                    <div class="col-md-6 col-lg-4 animate-in delay-{{ $index + 1 }}">
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ 100 * ($index + 1) }}">
                         <div class="heritage-card card">
                             <div class="card-img-wrapper">
                                 @if($item->image_path)

@@ -17,6 +17,17 @@
             <h4 class="mb-3" style="color: var(--deep-red);">
                 <i class="bi bi-pencil-square me-2"></i>{{ __('ui.admin_edit') }}: {{ $item->name }}
             </h4>
+            
+            @if ($errors->any())
+                <div class="alert alert-danger" style="border-radius: 12px;">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form action="{{ route('admin.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')

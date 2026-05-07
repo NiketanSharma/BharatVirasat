@@ -60,7 +60,7 @@ class HeritageController extends Controller
             });
         }
 
-        $items = $query->latest()->paginate(12)->appends($request->query());
+        $items = $query->latest()->get();
         $states = HeritageItem::approved()->select('state')->distinct()->orderBy('state')->pluck('state');
         $categories = HeritageItem::CATEGORIES;
 

@@ -100,11 +100,5 @@
         @endforelse
     </div>
 
-    <!-- Pagination -->
-    @if($items->hasPages())
-        <div class="d-flex justify-content-center mt-5">
-            {{ $items->links() }}
-        </div>
-    @endif
 </div>
 @endsection

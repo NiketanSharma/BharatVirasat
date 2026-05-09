@@ -30,7 +30,17 @@ class HeritageController extends Controller
             });
         }
 
-        $featured = $query->latest()->take(6)->get();
+        if ($request->filled('category') || $request->filled('search')) {
+            $featured = $query->latest()->take(6)->get();
+        } else {
+            $featured = collect();
+            foreach (HeritageItem::CATEGORIES as $category) {
+                $item = HeritageItem::approved()->ofCategory($category)->latest()->first();
+                if ($item) {
+                    $featured->push($item);
+                }
+            }
+        }
         $categories = HeritageItem::CATEGORIES;
 
         return view('home', compact('featured', 'categories'));
@@ -60,7 +70,7 @@ class HeritageController extends Controller
             });
         }
 
-        $items = $query->latest()->get();
+        $items = $query->orderBy('name')->get();
         $states = HeritageItem::approved()->select('state')->distinct()->orderBy('state')->pluck('state');
         $categories = HeritageItem::CATEGORIES;
 

@@ -34,9 +34,15 @@
             --warm-gray: #5D4A41;
             --cream: #F5EFEB;
             --bg-gradient: linear-gradient(135deg, #FFFDF9 0%, #F5EFEB 100%);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 8px 30px rgba(0,0,0,0.1);
+            --shadow-lg: 0 20px 50px rgba(0,0,0,0.12);
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -44,6 +50,8 @@
             color: var(--dark-brown);
             min-height: 100vh;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -53,41 +61,106 @@
 
         /* Navbar - Glassmorphism */
         .navbar-bharat {
-            background: rgba(44, 30, 22, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 1rem 0;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-            border-bottom: 1px solid rgba(197, 160, 89, 0.3);
-            transition: all 0.3s ease;
+            background: rgba(26, 20, 18, 0.92);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            padding: 0.8rem 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.15);
+            transition: all 0.4s var(--transition-smooth);
         }
 
         .navbar-bharat .navbar-brand {
             font-family: 'Playfair Display', serif;
-            font-size: 1.7rem;
+            font-size: 1.6rem;
             font-weight: 800;
             color: #fff !important;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
         }
 
-        .navbar-bharat .navbar-brand span {
-            color: var(--saffron);
+        .brand-emblem {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px; height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--saffron), var(--gold));
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(255, 123, 0, 0.35);
+            border: 2px solid rgba(255,255,255,0.15);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-bharat .navbar-brand:hover .brand-emblem {
+            transform: rotate(-5deg) scale(1.05);
+            box-shadow: 0 6px 18px rgba(255, 123, 0, 0.45);
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .brand-text .brand-main {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .brand-text .brand-main .text-gold {
+            background: linear-gradient(135deg, var(--gold-light), var(--saffron-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-text .brand-tagline {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: rgba(224, 195, 136, 0.7);
         }
 
         .navbar-bharat .nav-link {
-            color: rgba(255, 255, 255, 0.85) !important;
+            color: rgba(255, 255, 255, 0.75) !important;
             font-weight: 500;
-            font-size: 0.95rem;
-            padding: 0.5rem 1rem !important;
-            border-radius: 8px;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.9rem !important;
+            border-radius: 10px;
             transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-bharat .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%; right: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--saffron), var(--gold));
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-bharat .nav-link:hover::after,
+        .navbar-bharat .nav-link.active::after {
+            left: 20%; right: 20%;
         }
 
         .navbar-bharat .nav-link:hover,
         .navbar-bharat .nav-link.active {
+            color: #fff !important;
+        }
+
+        .navbar-bharat .nav-link.active {
             color: var(--gold-light) !important;
-            background: rgba(255, 255, 255, 0.1);
         }
 
         .lang-toggle {
@@ -107,13 +180,13 @@
 
         /* Cards */
         .heritage-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 22px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0,0,0,0.06);
+            transition: all 0.45s var(--transition-smooth);
             height: 100%;
             position: relative;
         }
@@ -121,26 +194,30 @@
         .heritage-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 20px;
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-            pointer-events: none;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--saffron), var(--gold), var(--deep-red));
+            border-radius: 22px 22px 0 0;
+            opacity: 0;
+            transition: opacity 0.4s ease;
             z-index: 10;
         }
 
+        .heritage-card:hover::before { opacity: 1; }
+
         .heritage-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(109, 0, 0, 0.12);
+            transform: translateY(-12px) scale(1.01);
+            box-shadow: 0 25px 50px rgba(109, 0, 0, 0.14), 0 10px 20px rgba(0,0,0,0.06);
         }
 
         .heritage-card .card-img-top {
-            height: 200px;
+            height: 220px;
             object-fit: cover;
-            transition: transform 0.4s ease;
+            transition: transform 0.6s var(--transition-smooth);
         }
 
         .heritage-card:hover .card-img-top {
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
 
         .heritage-card .card-img-wrapper {
@@ -302,9 +379,9 @@
 
         /* Footer */
         .footer-bharat {
-            background: #1A1A1A;
+            background: linear-gradient(180deg, #1a1412 0%, #0d0a08 100%);
             color: rgba(255, 255, 255, 0.7);
-            padding: 3rem 0 2rem;
+            padding: 4rem 0 2rem;
             margin-top: 5rem;
             position: relative;
         }
@@ -316,7 +393,14 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--saffron), var(--gold), var(--deep-red));
+            background: linear-gradient(90deg, var(--saffron), var(--gold), var(--deep-red), var(--gold), var(--saffron));
+            background-size: 200% 100%;
+            animation: shimmerGradient 4s ease infinite;
+        }
+
+        @keyframes shimmerGradient {
+            0%,100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .footer-bharat h5 {
@@ -325,8 +409,39 @@
         }
 
         .footer-bharat .footer-divider {
-            border-color: rgba(218, 165, 32, 0.3);
-            margin: 1.5rem 0;
+            border-color: rgba(218, 165, 32, 0.2);
+            margin: 2rem 0;
+        }
+
+        .footer-bharat a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-bharat a:hover {
+            color: var(--gold-light);
+            padding-left: 4px;
+        }
+
+        .footer-social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.7) !important;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin: 0 0.3rem;
+        }
+
+        .footer-social-link:hover {
+            background: var(--saffron);
+            color: #fff !important;
+            transform: translateY(-3px);
+            padding-left: 0 !important;
         }
 
         /* Alert customization */
@@ -397,9 +512,21 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        @keyframes float {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes pulse-glow {
+            0%,100% { box-shadow: 0 0 5px rgba(255,123,0,0.3); }
+            50% { box-shadow: 0 0 20px rgba(255,123,0,0.5); }
+        }
+
         .animate-in {
             animation: fadeInUp 0.6s ease forwards;
         }
+
+        .animate-float { animation: float 3s ease-in-out infinite; }
 
         .delay-1 { animation-delay: 0.1s; }
         .delay-2 { animation-delay: 0.2s; }
@@ -408,10 +535,68 @@
         .delay-5 { animation-delay: 0.5s; }
         .delay-6 { animation-delay: 0.6s; }
 
+        /* Scroll to top */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--saffron), var(--saffron-dark));
+            color: #fff;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scroll-top-btn.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-top-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255,123,0,0.4);
+        }
+
+        /* Stats counter */
+        .stat-card {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--saffron), var(--deep-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--warm-gray);
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-top: 0.3rem;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
-            .navbar-bharat .navbar-brand { font-size: 1.3rem; }
+            .navbar-bharat .navbar-brand { font-size: 1.1rem; }
+            .brand-emblem { width: 34px; height: 34px; font-size: 1rem; border-radius: 10px; }
+            .brand-text .brand-main { font-size: 1.2rem; }
+            .brand-text .brand-tagline { font-size: 0.5rem; letter-spacing: 1.5px; }
             .hero-section h1 { font-size: 2rem !important; }
+            .stat-number { font-size: 2rem; }
         }
     </style>
     @yield('styles')
@@ -421,7 +606,13 @@
     <nav class="navbar navbar-expand-lg navbar-bharat sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">
-                <i class="bi bi-gem me-2"></i>{{ __('ui.app_name') }}
+                <span class="brand-emblem">
+                    🏛️
+                </span>
+                <span class="brand-text">
+                    <span class="brand-main"><span class="text-gold">Bharat</span>Virasat</span>
+                    <span class="brand-tagline">Heritage of India</span>
+                </span>
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -519,15 +710,59 @@
 
     <!-- Footer -->
     <footer class="footer-bharat">
-        <div class="container text-center">
-            <h5 class="mb-3"><i class="bi bi-gem me-2"></i>{{ __('ui.app_name') }}</h5>
-            <p class="mb-1">{{ __('ui.footer_text') }}</p>
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-4 text-center text-lg-start">
+                    <h5 class="mb-3"><span style="display:inline-block;width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--saffron),var(--gold));text-align:center;line-height:32px;font-size:0.9rem;margin-right:8px;vertical-align:middle;">🏛️</span>{{ __('ui.app_name') }}</h5>
+                    <p style="font-size: 0.9rem; line-height: 1.7;">{{ __('ui.footer_text') }}</p>
+                    <div class="mt-3">
+                        <a href="#" class="footer-social-link"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="footer-social-link"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="footer-social-link"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="footer-social-link"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-6">
+                    <h6 class="mb-3" style="color: var(--gold-light); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Explore</h6>
+                    <ul class="list-unstyled" style="font-size: 0.9rem;">
+                        <li class="mb-2"><a href="{{ route('heritage.index') }}"><i class="bi bi-chevron-right me-1" style="font-size: 0.7rem;"></i>Heritage</a></li>
+                        <li class="mb-2"><a href="{{ route('trivia.index') }}"><i class="bi bi-chevron-right me-1" style="font-size: 0.7rem;"></i>Trivia</a></li>
+                        <li class="mb-2"><a href="{{ route('favourites.index') }}"><i class="bi bi-chevron-right me-1" style="font-size: 0.7rem;"></i>Favourites</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-6">
+                    <h6 class="mb-3" style="color: var(--gold-light); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Categories</h6>
+                    <ul class="list-unstyled" style="font-size: 0.9rem;">
+                        <li class="mb-2"><a href="{{ route('heritage.index', ['category'=>'festival']) }}">🎆 Festivals</a></li>
+                        <li class="mb-2"><a href="{{ route('heritage.index', ['category'=>'dance']) }}">💃 Dance</a></li>
+                        <li class="mb-2"><a href="{{ route('heritage.index', ['category'=>'monument']) }}">🏛️ Monuments</a></li>
+                        <li class="mb-2"><a href="{{ route('heritage.index', ['category'=>'cuisine']) }}">🍛 Cuisine</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h6 class="mb-3" style="color: var(--gold-light); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Contribute</h6>
+                    <p style="font-size: 0.9rem;">Help us preserve India's cultural heritage by submitting new entries.</p>
+                    <a href="{{ route('heritage.create') }}" class="btn btn-sm btn-outline-light" style="border-radius: 20px; border-color: rgba(255,255,255,0.2);">
+                        <i class="bi bi-plus-circle me-1"></i>Submit Heritage Item
+                    </a>
+                </div>
+            </div>
             <hr class="footer-divider">
-            <p class="mb-0" style="font-size: 0.85rem;">
-                &copy; {{ date('Y') }} {{ __('ui.footer_copyright') }}
-            </p>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+                <p class="mb-0" style="font-size: 0.85rem;">
+                    &copy; {{ date('Y') }} {{ __('ui.footer_copyright') }}
+                </p>
+                <p class="mb-0" style="font-size: 0.8rem; color: rgba(255,255,255,0.4);">
+                    Made with <i class="bi bi-heart-fill" style="color: var(--saffron);"></i> for India's Heritage
+                </p>
+            </div>
         </div>
     </footer>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Scroll to top">
+        <i class="bi bi-chevron-up"></i>
+    </button>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -543,16 +778,23 @@
                 offset: 50,
             });
             
-            // Navbar scroll effect
+            // Navbar scroll effect + scroll-to-top
+            var scrollBtn = document.getElementById('scrollTopBtn');
             window.addEventListener('scroll', function() {
                 var navbar = document.querySelector('.navbar-bharat');
                 if (window.scrollY > 50) {
-                    navbar.style.padding = '0.5rem 0';
-                    navbar.style.background = 'rgba(26, 26, 26, 0.95)';
+                    navbar.style.padding = '0.4rem 0';
+                    navbar.style.background = 'rgba(13, 10, 8, 0.97)';
+                    navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.3)';
                 } else {
-                    navbar.style.padding = '1rem 0';
-                    navbar.style.background = 'rgba(44, 30, 22, 0.85)';
+                    navbar.style.padding = '0.8rem 0';
+                    navbar.style.background = 'rgba(26, 20, 18, 0.92)';
+                    navbar.style.boxShadow = '0 4px 30px rgba(0,0,0,0.2)';
                 }
+                scrollBtn.classList.toggle('visible', window.scrollY > 400);
+            });
+            scrollBtn.addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
     </script>

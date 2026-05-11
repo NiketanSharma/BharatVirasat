@@ -5,21 +5,44 @@
 @section('styles')
 <style>
     .detail-hero {
-        background: linear-gradient(135deg, rgba(139, 0, 0, 0.9), rgba(62, 39, 35, 0.85));
-        padding: 3rem 0;
-        margin-bottom: 2rem;
+        background: linear-gradient(135deg, rgba(109, 0, 0, 0.92), rgba(44, 30, 22, 0.88));
+        padding: 3rem 0 4rem;
+        position: relative;
     }
+
+    .detail-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -2px; left: 0; right: 0;
+        height: 50px;
+        background: var(--ivory-warm);
+        clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    .detail-hero .breadcrumb-custom a {
+        color: rgba(255,255,255,0.7);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .detail-hero .breadcrumb-custom a:hover { color: var(--gold-light); }
 
     .detail-image {
         border-radius: 20px;
         overflow: hidden;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+        position: relative;
     }
 
     .detail-image img {
         width: 100%;
-        max-height: 450px;
+        max-height: 500px;
         object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .detail-image:hover img {
+        transform: scale(1.03);
     }
 
     .detail-image-placeholder {
@@ -37,7 +60,8 @@
         background: #fff;
         border-radius: 20px;
         padding: 2.5rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(0,0,0,0.04);
     }
 
     .detail-meta {
@@ -51,33 +75,78 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        padding: 0.5rem 1rem;
+        padding: 0.6rem 1.2rem;
         border-radius: 12px;
-        background: var(--ivory-warm);
+        background: linear-gradient(135deg, var(--ivory-warm), var(--cream));
         font-weight: 500;
+        font-size: 0.9rem;
+        border: 1px solid rgba(197,160,89,0.15);
+        transition: all 0.3s ease;
+    }
+
+    .meta-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
 
     .long-desc {
         font-size: 1.05rem;
-        line-height: 1.9;
+        line-height: 1.95;
         color: #444;
         white-space: pre-line;
+    }
+
+    .fav-btn {
+        border-radius: 14px;
+        padding: 0.8rem;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .fav-btn:hover {
+        transform: translateY(-3px) scale(1.02);
+    }
+
+    .share-btn {
+        width: 42px; height: 42px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.05);
+        color: var(--warm-gray);
+        border: none;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+    }
+
+    .share-btn:hover {
+        background: var(--saffron);
+        color: #fff;
+        transform: translateY(-2px);
     }
 </style>
 @endsection
 
 @section('content')
-    <!-- Back Button Bar -->
-    <div class="container pt-4">
-        <a href="{{ route('heritage.index') }}" class="btn btn-outline-secondary btn-sm" style="border-radius: 20px;">
-            <i class="bi bi-arrow-left me-1"></i>{{ __('ui.back_to_directory') }}
-        </a>
+    <!-- Hero breadcrumb bar -->
+    <div class="detail-hero">
+        <div class="container">
+            <div class="breadcrumb-custom" data-aos="fade-right">
+                <a href="{{ route('home') }}"><i class="bi bi-house me-1"></i>Home</a>
+                <span style="color: rgba(255,255,255,0.4); margin: 0 0.5rem;">›</span>
+                <a href="{{ route('heritage.index') }}">Heritage</a>
+                <span style="color: rgba(255,255,255,0.4); margin: 0 0.5rem;">›</span>
+                <span style="color: var(--gold-light);">{{ Str::limit($item->name, 30) }}</span>
+            </div>
+        </div>
     </div>
 
-    <div class="container py-4">
+    <div class="container" style="margin-top: -2rem; position: relative; z-index: 5;">
         <div class="row g-4">
             <!-- Image Column -->
-            <div class="col-lg-5">
+            <div class="col-lg-5" data-aos="fade-right">
                 <div class="detail-image">
                     @if($item->image_path)
                         <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
@@ -88,25 +157,30 @@
                     @endif
                 </div>
 
-                <!-- Favourite Button -->
-                <div class="mt-3">
-                    @if(in_array($item->id, $favourites))
-                        <button class="btn btn-gold w-100" disabled style="border-radius: 12px;">
-                            <i class="bi bi-heart-fill me-2"></i>{{ __('ui.fav_added') }}
-                        </button>
-                    @else
-                        <form action="{{ route('favourites.add', $item->id) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-saffron w-100" style="border-radius: 12px;">
-                                <i class="bi bi-heart me-2"></i>{{ __('ui.fav_add') }}
+                <!-- Action Buttons -->
+                <div class="mt-3 d-flex gap-2">
+                    <div class="flex-grow-1">
+                        @if(in_array($item->id, $favourites))
+                            <button class="btn btn-gold w-100 fav-btn" disabled>
+                                <i class="bi bi-heart-fill me-2"></i>{{ __('ui.fav_added') }}
                             </button>
-                        </form>
-                    @endif
+                        @else
+                            <form action="{{ route('favourites.add', $item->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-saffron w-100 fav-btn">
+                                    <i class="bi bi-heart me-2"></i>{{ __('ui.fav_add') }}
+                                </button>
+                            </form>
+                        @endif
+                    </div>
+                    <button class="share-btn" onclick="navigator.share ? navigator.share({title: '{{ $item->name }}', url: window.location.href}) : navigator.clipboard.writeText(window.location.href).then(() => alert('Link copied!'))" title="Share">
+                        <i class="bi bi-share"></i>
+                    </button>
                 </div>
             </div>
 
             <!-- Details Column -->
-            <div class="col-lg-7">
+            <div class="col-lg-7" data-aos="fade-left">
                 <div class="detail-content">
                     <h1 style="font-size: 2.2rem; margin-bottom: 1rem;">{{ $item->name }}</h1>
 
@@ -123,7 +197,7 @@
                         </div>
                     </div>
 
-                    <hr style="border-color: var(--gold); opacity: 0.3;">
+                    <hr style="border-color: var(--gold); opacity: 0.2;">
 
                     <h5 class="mb-3">
                         <i class="bi bi-book me-2" style="color: var(--saffron);"></i>{{ __('ui.detail_description') }}
@@ -138,11 +212,11 @@
 
         <!-- Related Items -->
         @if($related->count() > 0)
-            <div class="mt-5">
-                <h3 class="section-title text-center mb-4">{{ __('ui.related_title') }}</h3>
+            <div class="mt-5 pt-3">
+                <h3 class="section-title text-center mb-4" data-aos="fade-up">{{ __('ui.related_title') }}</h3>
                 <div class="row g-4">
-                    @foreach($related as $rel)
-                        <div class="col-md-6 col-lg-3">
+                    @foreach($related as $index => $rel)
+                        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ 100 * ($index + 1) }}">
                             <div class="heritage-card card">
                                 <div class="card-img-wrapper">
                                     @if($rel->image_path)

@@ -664,12 +664,6 @@
                                 </button>
                             </form>
                         </li>
-                    @else
-                        <li class="nav-item ms-2">
-                            <a class="nav-link" href="{{ route('login') }}" style="border: 1px solid rgba(255,255,255,0.3); border-radius: 20px;">
-                                <i class="bi bi-person-circle me-1"></i>{{ __('ui.nav_login') }}
-                            </a>
-                        </li>
                     @endauth
                     <li class="nav-item ms-2">
                         @if(app()->getLocale() === 'en')

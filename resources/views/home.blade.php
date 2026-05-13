@@ -311,6 +311,17 @@
         </div>
     </section>
 
+    <!-- Explore by Region Section -->
+    <section class="state-explorer-section py-5" style="background: linear-gradient(180deg, #fff 0%, var(--ivory-warm) 100%);">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Discover India by State</h2>
+                <p class="section-subtitle">Embark on a journey through the culturally rich landscapes of Bharat</p>
+            </div>
+            <x-state-explorer />
+        </div>
+    </section>
+
     <!-- Featured Heritage Items -->
     <section class="featured-section">
         <div class="container">
